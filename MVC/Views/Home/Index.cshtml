@@ -1,0 +1,60 @@
+﻿@using MVC.Models
+@model HomeModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Items:</h2>
+<ul>
+    @foreach (Item item in Model.items)
+    {
+        <li><b>Id:</b> @item.Id <b>Name:</b> @item.Name <b>Age:</b> @item.Age</li>
+    }
+</ul>
+<hr />
+<h2>Get Item By Id</h2>
+<form id="get">
+    <input type="text" name="id" required placeholder="Id" />
+    <button type="submit">Get</button>
+</form>
+@if (Model.item != null)
+{
+    <b>Name:</b> @Model.item.Name
+    <b>Age:</b> @Model.item.Age
+}
+<hr />
+<h2>Create Item</h2>
+<form method="post">
+    <input type="text" name="name" required placeholder="Name" />
+    <input type="text" name="age" required placeholder="Age" />
+    <button type="submit">Create</button>
+</form>
+<hr />
+<h2>Update Item</h2>
+<form method="post" action="/update">
+    @if (Model.item != null)
+    {
+        <input type="hidden" name="id" value="@Model.item.Id" />
+        <input type="text" name="name" required placeholder="Name" value="@Model.item.Name" />
+        <input type="text" name="age" required placeholder="Age" value="@Model.item.Age" />
+        <button type="submit">Update</button>
+    }
+</form>
+<hr />
+<h2>Delete By Id</h2>
+<form method="post" action="/delete">
+    <input type="text" name="id" required placeholder="Id" />
+    <button type="submit">Delete</button>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('#get')
+        form.addEventListener('submit', event => {
+            event.preventDefault()
+            const input = form.querySelector('input')
+            const id = input.value
+            window.location.pathname = '/' + id
+            form.reset()
+        })
+    })
+</script>
